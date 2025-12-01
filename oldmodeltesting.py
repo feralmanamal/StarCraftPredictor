@@ -28,19 +28,33 @@ model.add(Dense(32, activation='relu'))
 model.add(Dropout(0.2)) # randomly disables 20% of neurons to prevent overfitting
 model.add(Dense(1, activation='linear'))
 model.compile(optimizer='adam', loss='mse', metrics=['mae'])
-model.fit(x_scaled, y, epochs=50, batch_size=10, validation_split=0.2)
+history = model.fit(x_scaled, y, epochs=50, batch_size=10, validation_split=0.2)
 
+hist = pd.DataFrame(history.history)
+hist['epoch'] = history.epoch
 
-sample_inputs = x_scaled[:10]
-actual_ranks = y[:10]
+    # Set up the figure for side-by-side plots
+plt.figure(figsize=(12, 5))
 
-# 2. Ask the model to predict
-predictions = model.predict(sample_inputs)
+    # --- Plot 1: Loss (MSE) ---
+plt.subplot(1, 2, 1)
+plt.plot(hist['epoch'], hist['loss'], label='Training Loss (MSE)')
+plt.plot(hist['epoch'], hist['val_loss'], label='Validation Loss (MSE)')
+plt.title('Training and Validation Loss (MSE) Over Time')
+plt.xlabel('Epoch')
+plt.ylabel('Loss (MSE)')
+plt.legend()
+plt.grid(True)
 
-# 3. Print them side by side
-print("Actual  |  Predicted  |  Rounded")
-print("---------------------------------")
-for i in range(10):
-    val = actual_ranks.iloc[i] # or actual_ranks[i] depending on format
-    pred = predictions[i][0]
-    print(f"   {val}    |    {pred:.2f}     |     {round(pred)}")
+    # --- Plot 2: MAE ---
+plt.subplot(1, 2, 2)
+plt.plot(hist['epoch'], hist['mae'], label='Training MAE')
+plt.plot(hist['epoch'], hist['val_mae'], label='Validation MAE')
+plt.title('Training and Validation MAE Over Time')
+plt.xlabel('Epoch')
+plt.ylabel('MAE (League Index Error)')
+plt.legend()
+plt.grid(True)
+
+plt.tight_layout()
+plt.show()
