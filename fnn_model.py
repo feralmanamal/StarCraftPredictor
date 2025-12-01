@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import joblib   
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.metrics import mean_absolute_error
@@ -20,7 +21,7 @@ y = df['LeagueIndex']
 X['EfficiencyIndex'] = X['APM'] / X['ActionLatency']
 X.drop(columns=['APM', 'ActionLatency'], inplace=True)
 
-scaler = StandardScaler()
+scaler = joblib.load('scaler_ver1.joblib')
 x_scaled = scaler.fit_transform(X)
 
 model = Sequential()

@@ -36,15 +36,7 @@ predictions = rf_model.predict(x_train_scaled)
 mae = mean_absolute_error(y_train, predictions)
 print(f"Random Forest MAE: {mae}")
 
-# begin putting validation things here...
 feature_importances = rf_model.feature_importances_
 print(feature_importances)
 
-
-
-
-#joblib.dump(rf_model, 'rf_model_ver1.joblib')
-#joblib.dump(scaler, 'scaler_ver1.joblib')
-
-#loaded_rf_model = joblib.load('rf_model_ver1.joblib')
-#loaded_scaler = joblib.load('scaler_ver1.joblib')
+joblib.dump(scaler, 'scaler.joblib')
