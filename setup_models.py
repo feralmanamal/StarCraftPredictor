@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import joblib
 import json
-import xgboost as xgb
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestRegressor
@@ -74,25 +73,7 @@ def train_and_save_artifacts():
     }
     joblib.dump(rf_model, 'rf_model.joblib')
 
-    # --- MODEL 2: XGBOOST ---
-    print("Training XGBoost...")
-    xgb_model = xgb.XGBRegressor(
-        objective='reg:squarederror',
-        n_estimators=3000,
-        learning_rate=0.001,
-        max_depth=5,
-        n_jobs=1,
-        random_state=42
-    )
-    xgb_model.fit(X_train_scaled, y_train, verbose=False)
-    
-    xgb_pred = xgb_model.predict(X_test_scaled)
-    metrics_store['XGBoost'] = {
-        'MAE': mean_absolute_error(y_test, xgb_pred),
-        'RMSE': np.sqrt(mean_squared_error(y_test, xgb_pred)),
-        'R2': r2_score(y_test, xgb_pred)
-    }
-    joblib.dump(xgb_model, 'xgb_model.joblib')
+
 
     # --- MODEL 3: FNN (Neural Network) ---
     print("Training Neural Network...")

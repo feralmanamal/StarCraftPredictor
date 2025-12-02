@@ -65,7 +65,6 @@ def load_models_and_scaler():
         
         # Load models
         rf_model = joblib.load('rf_model.joblib')
-        xgb_model = joblib.load('xgb_model.joblib')
         
         # Load Keras model with explicit custom objects to handle 'mse' metric error
         fnn_model = tf.keras.models.load_model('fnn_model.h5', 
@@ -76,7 +75,7 @@ def load_models_and_scaler():
         with open('model_metrics.json', 'r') as f:
             metrics = json.load(f)
              
-        return scaler, rf_model, xgb_model, fnn_model, metrics
+        return scaler, rf_model, fnn_model, metrics
     except FileNotFoundError as e:
         st.error(f"Missing file: {e}. Please run 'setup_models.py' first to generate them!")
         return None, None, None, None, None
@@ -109,7 +108,7 @@ def main():
     """)
 
     # Load resources
-    scaler, rf_model, xgb_model, fnn_model, metrics = load_models_and_scaler()
+    scaler, rf_model, fnn_model, metrics = load_models_and_scaler()
     df_eda = load_data_for_eda()
 
     if not scaler:
@@ -132,7 +131,7 @@ def main():
         
         
         # Model Selection
-        selected_model_name = st.selectbox("Select Model", ["Random Forest", "XGBoost", "Neural Network (FNN)"])
+        selected_model_name = st.selectbox("Select Model", ["Random Forest", "Neural Network (FNN)"])
         
         submit_button = st.form_submit_button("Predict Rank")
 
@@ -160,8 +159,6 @@ def main():
             # 3. Predict
             if selected_model_name == "Random Forest":
                 pred = rf_model.predict(input_scaled)[0]
-            elif selected_model_name == "XGBoost":
-                pred = xgb_model.predict(input_scaled)[0]
             else: # FNN
                 pred = fnn_model.predict(input_scaled).flatten()[0]
             
