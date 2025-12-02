@@ -1,8 +1,9 @@
 # StarCraft Rank Predictor App
 # How to use:
 # 1. Set command prompt directory to this package. 
-# 2. Ensure all libraries are downloaded
-# 3. run: python -m streamlit run starcraft_rank_app.py
+# 2. Run setup_models.py to create models and scaler if not already done.
+# 3. Ensure all libraries are downloaded
+# 4. run: python -m streamlit run starcraft_rank_app.py
 
 
 #Definitions:
@@ -69,7 +70,7 @@ def load_models_and_scaler():
         # Load Keras model with explicit custom objects to handle 'mse' metric error
         fnn_model = tf.keras.models.load_model('fnn_model.h5', 
                                                custom_objects={'mse': tf.keras.losses.MeanSquaredError(), 
-                                                             'mae': tf.keras.metrics.MeanAbsoluteError()})
+                                             'mae': tf.keras.metrics.MeanAbsoluteError()})
         
         # Load metrics
         with open('model_metrics.json', 'r') as f:
@@ -121,12 +122,12 @@ def main():
     with st.sidebar.form("prediction_form"):
         apm = st.number_input("APM (Actions Per Minute)", min_value=0.0, max_value=600.0, value=100.0)
         action_latency = st.number_input("Action Latency (ms)", min_value=1.0, max_value=200.0, value=60.0)
-        gap_pacs = st.number_input("Gap Between PACs", min_value=0.0, max_value=200.0, value=40.0)
+        gap_pacs = st.number_input("Gap Between PACs (ms)", min_value=0.0, max_value=200.0, value=40.0)
         
         # High precision inputs for small values
         select_hotkeys = st.number_input("Select By Hotkeys (frequency)", 
                                         min_value=0.0, max_value=1.0, value=0.002, format="%.6f", step=0.0001)
-        num_pacs = st.number_input("Number of PACs", 
+        num_pacs = st.number_input("Number of PACs (per 1s)", 
                                    min_value=0.0, max_value=0.1, value=0.003, format="%.6f", step=0.0001)
         
         

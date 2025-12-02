@@ -75,7 +75,7 @@ def train_and_save_artifacts():
 
 
 
-    # --- MODEL 3: FNN (Neural Network) ---
+    # --- MODEL 2: FNN (Neural Network) ---
     print("Training Neural Network...")
     fnn_model = Sequential()
     fnn_model.add(Dense(64, input_dim=X_train_scaled.shape[1], activation='relu'))
