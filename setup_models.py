@@ -100,7 +100,7 @@ def train_and_save_artifacts():
         json.dump(metrics_store, f)
 
     print("\nSUCCESS: All models and metrics (including RMSE) saved.")
-    print("\n\n\nYou may now run 'starcraft_rank_app.py' to use the models in the app.\n\n\n")
+    print("\n\n\nYou may now run 'python -m streamlit run starcraft_rank_app.py' in the Terminal to use the models in the app.\n\n\n")
 
 if __name__ == "__main__":
     print("You are only required to run this code once, then the models are setup to run the the app")
