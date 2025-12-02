@@ -101,7 +101,7 @@ def preprocess_user_input(user_data, scaler):
     return df_scaled
 
 def main():
-    st.title("🏆 StarCraft Rank Predictor")
+    st.title("StarCraft Rank Predictor")
     st.markdown("""
     This application predicts a player's **League Rank** based on their in-game statistics using a **Random Forest Regression** model.
     It includes Exploratory Data Analysis (EDA) and Model Performance metrics.
